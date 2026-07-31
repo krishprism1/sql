@@ -3,10 +3,22 @@ CREATE ROLE ashu WITH LOGIN PASSWORD '1234';
 CREATE DATABASE test;
 GRANT ALL PRIVILEGES ON DATABASE test TO ashu;
 
+
+ALTER DATABASE test OWNER TO ashu;
+
+GRANT ALL ON DATABASE test TO ashu;
+
+GRANT ALL ON SCHEMA public TO ashu;
+
+ALTER SCHEMA public OWNER TO ashu;
+
+
+SELECT current_user;
 \c test
 \c postgres
 
 sudo -u postgres psql
+psql -U ashu -d test
 
 DROP DATABASE test;
  
@@ -22,6 +34,7 @@ CREATE TABLE person (
 \d
 \d person
 
+\i /home/ashu/Documents/db/postgres/faang/department.sql
 # create table with constraints
 CREATE TABLE person (
     id BIGSERIAL NOT NULL PRIMARY KEY,
@@ -80,8 +93,6 @@ VALUES (
     'FEMALE',
     DATE '1988-01-09'
 );
-
-\i /home/ashu/Documents/db/postgres/person.sql
 
 # select from table
 - SELECT * FROM person;

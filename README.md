@@ -1184,41 +1184,46 @@ SELECT * FROM users WHERE data @> '{"age": 28}';
 ### Common Interview Patterns
 
 ```sql
--- Top N per group (window function)
-SELECT * FROM (
-    SELECT name, department, salary,
-           ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) AS rn
-    FROM employees
-) ranked
-WHERE rn <= 3;
+-- 1. find duplicate record in table
+SELECT c1, c2, COUNT(*) FROM orders GROUP BY c1, c2 HAVING COUNT(*) > 1;
 
--- Second highest salary
-SELECT MAX(salary) FROM employees
-WHERE salary < (SELECT MAX(salary) FROM employees);
+-- 2. retrieve the second highest salary of the employee
+SELECT MAX(salary) AS highestSalary FROM employee WHERE salary < (SELECT MAX(salary) FROM employee);
 
--- Duplicate detection
-SELECT email, COUNT(*) FROM person
-GROUP BY email HAVING COUNT(*) > 1;
+-- 3. retrieve third highest salary of employee
+SELECT salary FROM employee ORDER BY salary DESC FROM employee LIMIT 3 OFFSET 2;
 
--- Delete duplicates, keep one
-DELETE FROM person
-WHERE id NOT IN (
-    SELECT MIN(id) FROM person GROUP BY email
-);
+-- using dense rank
+SELECT salary FROM (
+    SELECT salary DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk FROM employee
+) t
+WHERE rnk = 3;
 
--- Running total
-SELECT order_date, amount,
-       SUM(amount) OVER (ORDER BY order_date) AS running_total
-FROM orders;
+-- 4. calculate total revenue per product
+SELECT product_id, SUM(quanity*price) AS totalRevenue FROM sales GROUP BY product_id;
 
--- Year-over-year comparison
-SELECT
-    year,
-    revenue,
-    LAG(revenue) OVER (ORDER BY year)                        AS prev_year,
-    ROUND((revenue - LAG(revenue) OVER (ORDER BY year))
-          / LAG(revenue) OVER (ORDER BY year) * 100, 2)     AS growth_pct
-FROM yearly_revenue;
+-- 5. get top 3 highest paid employee
+SELECT TOP 3 * FROM employee ORDER BY salary;
+
+-- 6. find customer who purchage product but never returned
+SELECT DISTINCT c.customer_id FROM customer
+JOIN order o
+ON c.customer_id = o.custormer_id
+WHERE c.customer_id NOT IN (SELECT * FROM return);
+
+
+-- 7. show the count of orders per each customer
+SELECT customer_id, COUNT(*) AS totalCount FROM orders GROUP BY customer_id;
+
+-- 8. retrieve all employees who joined in 2023
+SELECT * FROM employees WHERE YEAR(hired_date) = 2023;
+
+-- 9. calculate the average order value per customer
+SELECT customer_id, AVG(amount) AS averageValue FROM order GROUP BY customer_id;
+
+-- 10. get the latest order placed by each customer
+SELECT customer_id, MAX(date) FROM order GROUP BY customer_id;
+
 ```
 
 ---
