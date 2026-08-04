@@ -652,6 +652,7 @@ WHERE NOT EXISTS (
 ---
 
 ### CTE — WITH … AS (Common Table Expression)
+A CTE (Common Table Expression) is a temporary named result set that exists only for the duration of a single SQL query.
 
 ```sql
 -- Basic CTE
@@ -1223,6 +1224,24 @@ SELECT customer_id, AVG(amount) AS averageValue FROM order GROUP BY customer_id;
 
 -- 10. get the latest order placed by each customer
 SELECT customer_id, MAX(date) FROM order GROUP BY customer_id;
+
+-- 11. reverse gender in table
+UPDATE employees
+SET gender = CASE
+    WHEN gender = 'Male' THEN 'Female'
+    WHEN gender = 'Female' THEN 'Male'
+END;
+
+-- 12. Self join - find Employees Whose Salary Is Greater Than Their Manager's
+SELECT
+    e.name AS employee,
+    e.salary AS employee_salary,
+    m.name AS manager,
+    m.salary AS manager_salary
+FROM employees e
+JOIN employees m
+    ON e.manager_id = m.id
+WHERE e.salary > m.salary;
 
 ```
 
