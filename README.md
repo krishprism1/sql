@@ -47,17 +47,17 @@ CREATE TABLE person (
 
 **Key data types:**
 
-| Type | Use for |
-|------|---------|
-| `BIGSERIAL` | Auto-incrementing primary key |
-| `VARCHAR(n)` | Variable-length string |
-| `TEXT` | Unlimited string |
-| `INT` / `BIGINT` | Integers |
-| `NUMERIC(p,s)` | Exact decimal (money, prices) |
-| `BOOLEAN` | true / false |
-| `DATE` | Date only |
-| `TIMESTAMP` | Date + time |
-| `UUID` | Universally unique identifier |
+| Type             | Use for                       |
+| ---------------- | ----------------------------- |
+| `BIGSERIAL`      | Auto-incrementing primary key |
+| `VARCHAR(n)`     | Variable-length string        |
+| `TEXT`           | Unlimited string              |
+| `INT` / `BIGINT` | Integers                      |
+| `NUMERIC(p,s)`   | Exact decimal (money, prices) |
+| `BOOLEAN`        | true / false                  |
+| `DATE`           | Date only                     |
+| `TIMESTAMP`      | Date + time                   |
+| `UUID`           | Universally unique identifier |
 
 > ⚠️ Use `NUMERIC` not `FLOAT` for money — FLOAT has rounding errors.
 
@@ -81,14 +81,14 @@ CREATE TABLE person (
 
 **Constraint types:**
 
-| Constraint | Purpose |
-|------------|---------|
-| `NOT NULL` | Column must have a value |
-| `UNIQUE` | No duplicate values |
-| `PRIMARY KEY` | NOT NULL + UNIQUE, identifies each row |
-| `CHECK (condition)` | Custom boolean rule |
-| `REFERENCES` | Foreign key — links to another table |
-| `DEFAULT value` | Fallback when no value is provided |
+| Constraint          | Purpose                                |
+| ------------------- | -------------------------------------- |
+| `NOT NULL`          | Column must have a value               |
+| `UNIQUE`            | No duplicate values                    |
+| `PRIMARY KEY`       | NOT NULL + UNIQUE, identifies each row |
+| `CHECK (condition)` | Custom boolean rule                    |
+| `REFERENCES`        | Foreign key — links to another table   |
+| `DEFAULT value`     | Fallback when no value is provided     |
 
 ---
 
@@ -134,11 +134,11 @@ DROP DATABASE IF EXISTS mydb;          -- Safe version
 
 **Compare DELETE vs TRUNCATE vs DROP:**
 
-| Command | Removes Data | Removes Structure | Resets Serial |
-|---------|:---:|:---:|:---:|
-| `DELETE FROM` | ✅ | ❌ | ❌ |
-| `TRUNCATE` | ✅ | ❌ | ✅ |
-| `DROP TABLE` | ✅ | ✅ | ✅ |
+| Command       | Removes Data | Removes Structure | Resets Serial |
+| ------------- | :----------: | :---------------: | :-----------: |
+| `DELETE FROM` |      ✅      |        ❌         |      ❌       |
+| `TRUNCATE`    |      ✅      |        ❌         |      ✅       |
+| `DROP TABLE`  |      ✅      |        ✅         |      ✅       |
 
 ---
 
@@ -191,9 +191,9 @@ ON CONFLICT (sku) DO UPDATE
 
 **`EXCLUDED` keyword:**
 
-| Reference | Meaning |
-|-----------|---------|
-| `EXCLUDED.price` | The value you tried to INSERT (incoming) |
+| Reference        | Meaning                                     |
+| ---------------- | ------------------------------------------- |
+| `EXCLUDED.price` | The value you tried to INSERT (incoming)    |
 | `products.price` | The value currently in the table (existing) |
 
 ```sql
@@ -335,10 +335,10 @@ SELECT * FROM person WHERE country_of_birth ILIKE 'p%';   -- case-insensitive (P
 
 **Pattern characters:**
 
-| Symbol | Meaning |
-|--------|---------|
-| `%` | Any sequence of characters (including none) |
-| `_` | Exactly one character |
+| Symbol | Meaning                                     |
+| ------ | ------------------------------------------- |
+| `%`    | Any sequence of characters (including none) |
+| `_`    | Exactly one character                       |
 
 ---
 
@@ -587,14 +587,14 @@ CROSS JOIN sizes b;
 
 ### Join Summary
 
-| Join Type | Returns |
-|-----------|---------|
-| `INNER JOIN` | Only rows with matches in BOTH tables |
-| `LEFT JOIN` | All left rows; NULL for non-matching right |
-| `RIGHT JOIN` | All right rows; NULL for non-matching left |
-| `FULL OUTER JOIN` | All rows from both; NULL where no match |
-| `CROSS JOIN` | Every possible combination |
-| `SELF JOIN` | Rows from a table joined to itself |
+| Join Type         | Returns                                    |
+| ----------------- | ------------------------------------------ |
+| `INNER JOIN`      | Only rows with matches in BOTH tables      |
+| `LEFT JOIN`       | All left rows; NULL for non-matching right |
+| `RIGHT JOIN`      | All right rows; NULL for non-matching left |
+| `FULL OUTER JOIN` | All rows from both; NULL where no match    |
+| `CROSS JOIN`      | Every possible combination                 |
+| `SELF JOIN`       | Rows from a table joined to itself         |
 
 ---
 
@@ -652,6 +652,7 @@ WHERE NOT EXISTS (
 ---
 
 ### CTE — WITH … AS (Common Table Expression)
+
 A CTE (Common Table Expression) is a temporary named result set that exists only for the duration of a single SQL query.
 
 ```sql
@@ -732,11 +733,11 @@ FROM employees;
 **Difference between RANK and DENSE_RANK:**
 
 | Name | Salary | RANK | DENSE_RANK |
-|------|--------|------|------------|
-| A | 90000 | 1 | 1 |
-| B | 90000 | 1 | 1 |
-| C | 80000 | 3 | 2 ← no gap |
-| D | 70000 | 4 | 3 |
+| ---- | ------ | ---- | ---------- |
+| A    | 90000  | 1    | 1          |
+| B    | 90000  | 1    | 1          |
+| C    | 80000  | 3    | 2 ← no gap |
+| D    | 70000  | 4    | 3          |
 
 ---
 
@@ -911,6 +912,7 @@ SELECT * FROM person WHERE email = 'ash@gmail.com';
 ```
 
 **Key things to look for:**
+
 - `Seq Scan` → full table scan (slow on large tables — add an index)
 - `Index Scan` → using an index (fast)
 - `cost=0.00..8.27` → estimated startup..total cost
@@ -1053,12 +1055,12 @@ DROP TRIGGER salary_change_trigger ON employees;
 
 **Trigger timing options:**
 
-| Option | When it fires |
-|--------|--------------|
-| `BEFORE` | Before the row is changed |
-| `AFTER` | After the row is changed |
-| `INSTEAD OF` | Used on views |
-| `FOR EACH ROW` | Fires once per affected row |
+| Option               | When it fires                |
+| -------------------- | ---------------------------- |
+| `BEFORE`             | Before the row is changed    |
+| `AFTER`              | After the row is changed     |
+| `INSTEAD OF`         | Used on views                |
+| `FOR EACH ROW`       | Fires once per affected row  |
 | `FOR EACH STATEMENT` | Fires once per SQL statement |
 
 ---
@@ -1167,18 +1169,18 @@ SELECT * FROM users WHERE data @> '{"age": 28}';
 
 ### Most Asked Topics
 
-| Topic | Key Points |
-|-------|-----------|
-| Joins | Know all 5 types; explain with examples |
-| Window functions | `ROW_NUMBER`, `RANK`, `LAG/LEAD`, `PARTITION BY` |
-| CTEs | Cleaner than nested subqueries; use for readability |
-| GROUP BY vs HAVING | WHERE filters rows, HAVING filters groups |
-| TRUNCATE vs DELETE | TRUNCATE is faster, resets serial, can't rollback in some DBs |
-| Index | Speeds up reads, slows down writes; use on WHERE/JOIN/ORDER columns |
-| Transaction | ACID — Atomicity, Consistency, Isolation, Durability |
-| COALESCE | First non-NULL value |
-| NULLIF | Returns NULL if two values are equal |
-| UPSERT | `ON CONFLICT DO UPDATE` with `EXCLUDED` keyword |
+| Topic              | Key Points                                                          |
+| ------------------ | ------------------------------------------------------------------- |
+| Joins              | Know all 5 types; explain with examples                             |
+| Window functions   | `ROW_NUMBER`, `RANK`, `LAG/LEAD`, `PARTITION BY`                    |
+| CTEs               | Cleaner than nested subqueries; use for readability                 |
+| GROUP BY vs HAVING | WHERE filters rows, HAVING filters groups                           |
+| TRUNCATE vs DELETE | TRUNCATE is faster, resets serial, can't rollback in some DBs       |
+| Index              | Speeds up reads, slows down writes; use on WHERE/JOIN/ORDER columns |
+| Transaction        | ACID — Atomicity, Consistency, Isolation, Durability                |
+| COALESCE           | First non-NULL value                                                |
+| NULLIF             | Returns NULL if two values are equal                                |
+| UPSERT             | `ON CONFLICT DO UPDATE` with `EXCLUDED` keyword                     |
 
 ---
 
@@ -1243,8 +1245,37 @@ JOIN employees m
     ON e.manager_id = m.id
 WHERE e.salary > m.salary;
 
+-- 13. find product that were never sold
+SELECT p.product_id
+FROM products p
+LEFT JOIN sales s
+ON p.product_id = s.product_id
+WHERE s.product_id IS NULL;
+
+-- 14. Identify the most selling product.
+SELECT TOP 1 SUM(quantity) AS total_quantity, product_id
+FROM sales
+GROUP BY product_id
+ORDER BY total_quantity DESC;
+
+-- 15. Get the total revenue and the number of orders per region.
+SELECT region, SUM(amount) AS total_revenue, COUNT(*) AS  total_orders
+FROM orders
+GROUP BY region;
+
+-- 16. Count how many customers placed more than 5 orders.
+SELECT COUNT(*) AS customer_count
+FROM
+(SELECT customer_id
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(*) > 5;
+) AS subquery;
+
+-- 17.  Retrieve customers with orders above the average order value.
+
 ```
 
 ---
 
-*Built with ❤️ for interview prep. Practice every concept, run the queries yourself.*
+_Built with ❤️ for interview prep. Practice every concept, run the queries yourself._
