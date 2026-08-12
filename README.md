@@ -32,6 +32,8 @@
 
 ## 1. DDL — Table Structure
 
+> **DDL (Data Definition Language)** — commands that define/modify the structure of database objects (tables, constraints, etc.). Think of it as the **blueprint** of your database.
+
 ### CREATE TABLE
 
 ```sql
@@ -143,6 +145,8 @@ DROP DATABASE IF EXISTS mydb;          -- Safe version
 ---
 
 ## 2. DML — Insert / Update / Delete
+
+> **DML (Data Manipulation Language)** — commands that work with the **data inside** tables (insert, update, delete). DDL builds the house; DML moves the furniture.
 
 ### INSERT
 
@@ -600,6 +604,8 @@ CROSS JOIN sizes b;
 
 ## 9. Subqueries & CTEs
 
+> **Subquery** — a query nested inside another query. **CTE (Common Table Expression)** — a named temporary result set (using `WITH`) that you can reference like a table within the same query.
+
 ### Subquery in WHERE
 
 ```sql
@@ -823,6 +829,8 @@ ORDER BY
 
 ## 12. Set Operations
 
+> **Set operations** combine results from two or more `SELECT` queries into a single result set — like stacking, intersecting, or subtracting datasets. Think of it as **set math** (union, intersection, difference).
+
 ```sql
 -- UNION — combine results, remove duplicates
 SELECT name FROM employees_2023
@@ -876,6 +884,8 @@ SELECT INITCAP('ashutosh maurya');               -- Ashutosh Maurya
 
 ## 14. Indexes & Performance
 
+> **Index** — a data structure (like a book's index) that helps the database find rows **faster** without scanning the entire table. Trade-off: faster reads, slower writes.
+
 ### CREATE INDEX
 
 ```sql
@@ -921,6 +931,8 @@ SELECT * FROM person WHERE email = 'ash@gmail.com';
 ---
 
 ## 15. Transactions
+
+> **Transaction** — a group of SQL statements that execute as a **single unit of work**. Either all succeed (`COMMIT`) or all are undone (`ROLLBACK`). Ensures data integrity.
 
 ```sql
 -- Basic transaction
@@ -983,6 +995,8 @@ DROP VIEW IF EXISTS active_employees;
 
 ## 17. Stored Functions & Procedures
 
+> **Function** — reusable block of code that **returns a value** and can be used in `SELECT`. **Procedure** — similar but **doesn't return a value**; called with `CALL` and can manage transactions internally.
+
 ### Function (returns a value)
 
 ```sql
@@ -1029,6 +1043,8 @@ CALL update_salary(1, 5000);
 ---
 
 ## 18. Triggers
+
+> **Trigger** — a function that **automatically executes** in response to a specific event (INSERT, UPDATE, DELETE) on a table. Like an event listener for your database.
 
 ```sql
 -- Step 1: Create the trigger function
@@ -1273,7 +1289,10 @@ HAVING COUNT(*) > 5;
 ) AS subquery;
 
 -- 17.  Retrieve customers with orders above the average order value.
+SELECT DISTINCT customer_id FROM orders WHERE amount > ( SELECT AVG(amount) FROM orders);
 
+-- 18.  Find all employees hired on weekends
+SELECT * FROM employee WHERE EXTRACT(DOW FROM hiredate) IN (0, 6);
 ```
 
 ---
