@@ -1,3 +1,21 @@
+sudo -u postgres psql
+\l
+CREATE DATABASE performance_lab;
+\l
+\c performance_lab
+
+CREATE USER performance_user WITH PASSWORD 'performance_password';
+GRANT ALL PRIVILEGES ON DATABASE performance_lab TO performance_user;
+
+\c performance_lab
+
+GRANT ALL ON SCHEMA public TO performance_user;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO performance_user;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO performance_user;
+
+DATABASE_URL="postgresql://performance_user:performance_password@localhost:5432/performance_lab"
+
+
 CREATE ROLE ashu WITH LOGIN PASSWORD '1234';
 
 CREATE DATABASE test;
